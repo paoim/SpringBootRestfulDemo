@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,5 +45,47 @@ public class BlogController {
 			return new ResponseEntity<Blog>(HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<Blog>(blog, HttpStatus.OK);
+	}
+	
+	
+	@RequestMapping(
+			value = "blog/create",
+			method = RequestMethod.POST,
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE
+	)
+	public ResponseEntity<Blog> createBlog(@RequestBody Blog blog) {
+		if (blog == null) {
+			return new ResponseEntity<Blog>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		Blog newBlog = blogService.save(blog);
+		return new ResponseEntity<Blog>(newBlog, HttpStatus.CREATED);
+	}
+	
+	@RequestMapping(
+			value = "blog/update/{id}",
+			method = RequestMethod.PUT,
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE
+	)
+	public ResponseEntity<Blog> updateBlog(@RequestBody Blog blog, @PathVariable("id") BigInteger id) {
+		Blog updateBlog = blogService.update(id, blog);
+		if (updateBlog == null) {
+			return new ResponseEntity<Blog>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<Blog>(updateBlog, HttpStatus.OK);
+	}
+	
+	@RequestMapping(
+			value = "blog/delete/{id}",
+			method = RequestMethod.DELETE,
+			produces = MediaType.APPLICATION_JSON_VALUE
+	)
+	public ResponseEntity<Blog> deleteBlog(@PathVariable("id") BigInteger id) {
+		boolean isDelete = blogService.delete(id);
+		if (!isDelete) {
+			return new ResponseEntity<Blog>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<Blog>(HttpStatus.NO_CONTENT);
 	}
 }
