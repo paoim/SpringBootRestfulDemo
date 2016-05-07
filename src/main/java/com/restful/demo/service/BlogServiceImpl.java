@@ -5,8 +5,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.stereotype.Component;
+
 import com.restful.demo.model.Blog;
 
+@Component
 public class BlogServiceImpl implements BlogService {
 
 	private BigInteger nextId;
@@ -54,6 +57,12 @@ public class BlogServiceImpl implements BlogService {
 		return blogs;
 	}
 	
+	@Override
+	public Blog getId(BigInteger id) {
+		Blog blog = blogMap.get(id);
+		return blog;
+	}
+
 	private void save(Blog blog) {
 		if (blogMap == null) {
 			blogMap = new HashMap<BigInteger, Blog>();
