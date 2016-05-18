@@ -1,6 +1,5 @@
 package com.restful.demo.service;
 
-import java.math.BigInteger;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,20 +11,20 @@ import com.restful.demo.model.Blog;
 @Component
 public class BlogServiceImpl implements BlogService {
 
-	private static BigInteger nextId;
+	private static Long nextId;
 	
-	private static Map<BigInteger, Blog> blogMap;
+	private static Map<Long, Blog> blogMap;
 	
 	private static Blog save(Blog blog) {
 		if (blogMap == null) {
-			blogMap = new HashMap<BigInteger, Blog>();
-			nextId = BigInteger.ONE;
+			blogMap = new HashMap<Long, Blog>();
+			nextId = new Long(1);
 		}
 		if (blog.getId() != null && blogMap.get(blog.getId()) != null) {
 			blogMap.remove(blog.getId());
 		} else {
 			blog.setId(nextId);
-			nextId = nextId.add(BigInteger.ONE);
+			nextId += 1;
 		}
 		blogMap.put(blog.getId(), blog);
 		return blog;
@@ -76,7 +75,7 @@ public class BlogServiceImpl implements BlogService {
 	}
 	
 	@Override
-	public Blog getId(BigInteger id) {
+	public Blog getId(Long id) {
 		Blog blog = blogMap.get(id);
 		return blog;
 	}
@@ -88,7 +87,7 @@ public class BlogServiceImpl implements BlogService {
 	}
 
 	@Override
-	public Blog update(BigInteger id, Blog blog) {
+	public Blog update(Long id, Blog blog) {
 		Blog oldBlog = getId(id);
 		Blog updateBlog = new Blog();
 		if (oldBlog != null) {
@@ -101,7 +100,7 @@ public class BlogServiceImpl implements BlogService {
 	}
 	
 	@Override
-	public boolean delete(BigInteger id) {
+	public boolean delete(Long id) {
 		Blog oldBlog = getId(id);
 		if (oldBlog != null) {
 			blogMap.remove(oldBlog.getId());

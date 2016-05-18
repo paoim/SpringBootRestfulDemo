@@ -1,6 +1,5 @@
 package com.restful.demo.rest;
 
-import java.math.BigInteger;
 import java.util.Collection;
 
 import javax.annotation.Resource;
@@ -39,7 +38,7 @@ public class BlogController {
 			method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE
 	)
-	public ResponseEntity<Blog> getBlog(@PathVariable("id") BigInteger id) {
+	public ResponseEntity<Blog> getBlog(@PathVariable("id") Long id) {
 		Blog blog = blogService.getId(id);
 		if (blog == null) {
 			return new ResponseEntity<Blog>(HttpStatus.NOT_FOUND);
@@ -68,7 +67,7 @@ public class BlogController {
 			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE
 	)
-	public ResponseEntity<Blog> updateBlog(@RequestBody Blog blog, @PathVariable("id") BigInteger id) {
+	public ResponseEntity<Blog> updateBlog(@RequestBody Blog blog, @PathVariable("id") Long id) {
 		Blog updateBlog = blogService.update(id, blog);
 		if (updateBlog == null) {
 			return new ResponseEntity<Blog>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -81,7 +80,7 @@ public class BlogController {
 			method = RequestMethod.DELETE,
 			produces = MediaType.APPLICATION_JSON_VALUE
 	)
-	public ResponseEntity<Blog> deleteBlog(@PathVariable("id") BigInteger id) {
+	public ResponseEntity<Blog> deleteBlog(@PathVariable("id") Long id) {
 		boolean isDelete = blogService.delete(id);
 		if (!isDelete) {
 			return new ResponseEntity<Blog>(HttpStatus.INTERNAL_SERVER_ERROR);
