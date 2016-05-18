@@ -12,11 +12,26 @@ import com.restful.demo.model.Blog;
 @Component
 public class BlogServiceImpl implements BlogService {
 
-	private BigInteger nextId;
-	private Map<BigInteger, Blog> blogMap;
+	private static BigInteger nextId;
 	
-	@Override
-	public Collection<Blog> getAll() {
+	private static Map<BigInteger, Blog> blogMap;
+	
+	private static Blog save(Blog blog) {
+		if (blogMap == null) {
+			blogMap = new HashMap<BigInteger, Blog>();
+			nextId = BigInteger.ONE;
+		}
+		if (blog.getId() != null && blogMap.get(blog.getId()) != null) {
+			blogMap.remove(blog.getId());
+		} else {
+			blog.setId(nextId);
+			nextId = nextId.add(BigInteger.ONE);
+		}
+		blogMap.put(blog.getId(), blog);
+		return blog;
+	}
+	
+	static {
 		Blog b1 = new Blog();
 		b1.setTitle("Create Project by using Maven Command");
 		b1.setBody("mvn archetype:generate -DgroupId={project-packaging} -DartifactId={project-name} -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false");
@@ -52,7 +67,10 @@ public class BlogServiceImpl implements BlogService {
 				+ "</project>"
 				);
 		save(b2);
-		
+	}
+	
+	@Override
+	public Collection<Blog> getAll() {
 		Collection<Blog> blogs = blogMap.values();
 		return blogs;
 	}
@@ -62,31 +80,24 @@ public class BlogServiceImpl implements BlogService {
 		Blog blog = blogMap.get(id);
 		return blog;
 	}
-
-	@Override
-	public Blog save(Blog blog) {
-		if (blogMap == null) {
-			blogMap = new HashMap<BigInteger, Blog>();
-			nextId = BigInteger.ONE;
-		}
-		blog.setId(nextId);
-		nextId = nextId.add(BigInteger.ONE);
-		blogMap.put(blog.getId(), blog);
-		return blog;
-	}
 	
+	@Override
+	public Blog create(Blog blog) {
+		Blog result = save(blog);
+		return result;
+	}
+
 	@Override
 	public Blog update(BigInteger id, Blog blog) {
 		Blog oldBlog = getId(id);
-		if (oldBlog == null) {
-			return null;
-		} else {
-			delete(oldBlog.getId());
-			oldBlog.setTitle(blog.getTitle());
-			oldBlog.setBody(blog.getBody());
-			blogMap.put(oldBlog.getId(), oldBlog);
-			return oldBlog;
+		Blog updateBlog = new Blog();
+		if (oldBlog != null) {
+			updateBlog.setId(oldBlog.getId());
 		}
+		updateBlog.setTitle(blog.getTitle());
+		updateBlog.setBody(blog.getBody());
+		Blog result = save(updateBlog);
+		return result;
 	}
 	
 	@Override

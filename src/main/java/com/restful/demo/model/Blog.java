@@ -3,8 +3,11 @@ package com.restful.demo.model;
 import java.math.BigInteger;
 
 public class Blog {
+	
 	private BigInteger id;
+	
 	private String title;
+	
 	private String body;
 	
 	public BigInteger getId() {

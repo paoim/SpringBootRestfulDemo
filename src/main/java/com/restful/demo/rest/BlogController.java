@@ -18,14 +18,14 @@ import com.restful.demo.model.Blog;
 import com.restful.demo.service.BlogService;
 
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/api/blog/")
 public class BlogController {
 	
 	@Resource
 	private BlogService blogService;
 	
 	@RequestMapping(
-			value = "blog/blogs",
+			value = "all",
 			method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE
 	)
@@ -35,7 +35,7 @@ public class BlogController {
 	}
 	
 	@RequestMapping(
-			value = "blog/{id}",
+			value = "{id}",
 			method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE
 	)
@@ -49,7 +49,7 @@ public class BlogController {
 	
 	
 	@RequestMapping(
-			value = "blog/create",
+			value = "create",
 			method = RequestMethod.POST,
 			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE
@@ -58,12 +58,12 @@ public class BlogController {
 		if (blog == null) {
 			return new ResponseEntity<Blog>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		Blog newBlog = blogService.save(blog);
+		Blog newBlog = blogService.create(blog);
 		return new ResponseEntity<Blog>(newBlog, HttpStatus.CREATED);
 	}
 	
 	@RequestMapping(
-			value = "blog/update/{id}",
+			value = "update/{id}",
 			method = RequestMethod.PUT,
 			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE
@@ -77,7 +77,7 @@ public class BlogController {
 	}
 	
 	@RequestMapping(
-			value = "blog/delete/{id}",
+			value = "delete/{id}",
 			method = RequestMethod.DELETE,
 			produces = MediaType.APPLICATION_JSON_VALUE
 	)

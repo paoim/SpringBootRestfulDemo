@@ -10,11 +10,10 @@ public interface BlogService {
 	public abstract Collection<Blog> getAll();
 
 	public abstract Blog getId(BigInteger id);
-
-	public abstract Blog save(Blog blog);
+	
+	public abstract Blog create(Blog blog);
 
 	public abstract Blog update(BigInteger id, Blog blog);
 
 	public abstract boolean delete(BigInteger id);
-
 }
