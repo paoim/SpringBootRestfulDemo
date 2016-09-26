@@ -4,11 +4,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.restful.demo.model.Blog;
 
-@Component
+@Service
 public class BlogServiceImpl implements BlogService {
 
 	private static Long nextId;
