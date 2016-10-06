@@ -1,0 +1,2 @@
+INSERT INTO blog (title, body) VALUES ('Create Project by using Maven Command', 'mvn archetype:generate -DgroupId={project-packaging} -DartifactId={project-name} -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false');
+INSERT INTO blog (title, body) VALUES ('Update pom.xml File', 'Test Demo');

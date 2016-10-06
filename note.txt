@@ -66,3 +66,6 @@ http://localhost:8080/
 >> mvn clean package
 >> java -jar target/SpringBootRestfulDemo-1.0-SNAPSHOT.jar
 http://localhost:8080/
+
+http://localhost:8088/api/blog/all
+http://localhost:8088/api/blog/1
